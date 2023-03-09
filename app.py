@@ -14,6 +14,7 @@ import streamlit as st
 from PIL import Image
 from urllib import request
 from io import BytesIO
+from st_clickable_images import clickable_images
 
 st.set_page_config(page_title = 'CodeBlueMD' , layout= "wide" ,  page_icon = ':hospital:')
 z1, z2 = st.columns([30,20])
@@ -25,8 +26,9 @@ with z2:
     logo = logo.resize((50, 50))
     st.image(logo)
 
-
-st.markdown('### Hello and Welcome to CodeBlueMD Please select the below options')
+x1 ,x2 , x3 = st.columns([3,20,3])
+with x2:
+    st.markdown('### Welcome to CodeBlueMD, The emergency care solution you can count on...')
 
 # login = st.button('Login')
 # forget_password = st.button('Forget Password')
@@ -55,6 +57,7 @@ st.markdown('### Hello and Welcome to CodeBlueMD Please select the below options
 #         st.warning('Please enter your username and password')
 
 #     if st.session_state["authentication_status"]:
+
 #         authenticator.logout('Logout', 'main')
 #         st.write(f'Welcome *{st.session_state["name"]}*')
 #         st.title('Some content')
@@ -148,6 +151,35 @@ with col3:
     st.write('##')
     search = st.button('Search')
 
+
+with open('articles.json','r') as articles_file:
+    articles = json.loads(articles_file.read())
+
+    for article in articles:
+        st.write(article["name"])
+        art_img = article["image"]
+        data = article['data']
+        red_url = article['redirect_url']
+        c1, c2 = st.columns([30,20])
+        with c1:
+            
+            res = request.urlopen(art_img).read()
+            image = Image.open(BytesIO(res))
+
+        with c2:
+            st.markdown("#####  \n [read more...](" + red_url + ")")
+
+
+
+
+
+
+
+
+
+
+
+
 if search:
     if(len(selcte_symtoms)):
        predicted_disease =  predictDisease(selcte_symtoms)
@@ -174,7 +206,7 @@ if search:
             Sys = disease_info["Symptoms"] if "Symptoms" in disease_info else None
 
             if image_url is not None:
-                res = request.urlopen("https:" + image_url).read()
+                res = request.urlopen(image_url).read()
                 image = Image.open(BytesIO(res))
 
                 st.image(image, caption='Sunrise by the mountains')
@@ -213,9 +245,24 @@ if search:
 # TO GET THE LOCATION
 loc = st.button("Get Location")
 loc_data = streamlit_js_eval.get_geolocation('SCR')
-if loc:
-    if loc_data is not None:
-        
+import base64
+import streamlit as st
+from st_clickable_images import clickable_images
 
+images = []
+for file in ['hospital.jpg']:
+    with open(file, "rb") as image:
+        encoded = base64.b64encode(image.read()).decode()
+        images.append(f"data:image/jpeg;base64,{encoded}")
+
+clicked = clickable_images(
+    images,
+    titles=[f"Image #{str(i)}" for i in range(2)],
+    div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
+    img_style={"margin": "5px", "height": "200px"},
+)
+
+if not clicked:
+    if loc_data is not None:
         latitude = loc_data["coords"]["latitude"]
         longitude = loc_data["coords"]["longitude"]
