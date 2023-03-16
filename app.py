@@ -15,6 +15,10 @@ from PIL import Image
 from urllib import request
 from io import BytesIO
 from st_clickable_images import clickable_images
+import base64
+from st_clickable_images import clickable_images
+import random
+from math import radians, sin, cos, sqrt
 
 st.set_page_config(page_title = 'CodeBlueMD' , layout= "wide" ,  page_icon = ':hospital:')
 z1, z2 = st.columns([30,20])
@@ -22,7 +26,7 @@ with z1:
     new_title = '<p style="font-family:verdana; color:Green; font-size: 50px; float:right;">CodeBlueMD</p>'
     st.markdown(new_title, unsafe_allow_html=True)
 with z2:
-    logo = Image.open("hospital.jpg")
+    logo = Image.open("logo.jpg")
     logo = logo.resize((50, 50))
     st.image(logo)
 
@@ -30,88 +34,7 @@ x1 ,x2 , x3 = st.columns([3,20,3])
 with x2:
     st.markdown('### Welcome to CodeBlueMD, The emergency care solution you can count on...')
 
-# login = st.button('Login')
-# forget_password = st.button('Forget Password')
-
-# hashed_passwords = stauth.Hasher(['abc', 'def']).generate()
-
-# with open('D:/Projects/ML-II/config.yaml') as file:
-#     config = yaml.load(file , Loader=yaml.SafeLoader)
-
-# authenticator = stauth.Authenticate(
-#     config['credentials'],
-#     config['cookie']['name'],
-#     config['cookie']['key'],
-#     config['cookie']['expiry_days'],
-#     config['preauthorized']
-# )
-# name, authentication_status, username = authenticator.login('Login', 'main')
-# if login:
-#     if authentication_status:
-#         authenticator.logout('Logout', 'main')
-#         st.write(f'Welcome *{name}*')
-#         st.title('Some content')
-#     elif authentication_status is False:
-#         st.error('Username/password is incorrect')
-#     elif authentication_status is None:
-#         st.warning('Please enter your username and password')
-
-#     if st.session_state["authentication_status"]:
-
-#         authenticator.logout('Logout', 'main')
-#         st.write(f'Welcome *{st.session_state["name"]}*')
-#         st.title('Some content')
-#     elif st.session_state["authentication_status"] is False:
-#         st.error('Username/password is incorrect')
-#     elif st.session_state["authentication_status"] is None:
-#         st.warning('Please enter your username and password')
-#     elif authentication_status:
-#         if forget_password:
-#             try:
-#                 if authenticator.reset_password(username, 'Reset password'):
-#                     st.success('Password modified successfully')
-#             except Exception as e:
-#                 st.error(e)
-
-#     try:
-#         if authenticator.register_user('Register user', preauthorization=False):
-#             st.success('User registered successfully')
-#     except Exception as e:
-#         st.error(e)
-
-#     try:
-#         username_forgot_pw, email_forgot_password, random_password = authenticator.forgot_password('Forgot password')
-#         if username_forgot_pw:
-#             st.success('New password sent securely')
-#             # Random password to be transferred to user securely
-#         else:
-#             st.error('Username not found')
-#     except Exception as e:
-#         st.error(e)
-
-#     try:
-#         username_forgot_username, email_forgot_username = authenticator.forgot_username('Forgot username')
-#         if username_forgot_username:
-#             st.success('Username sent securely')
-#             # Username to be transferred to user securely
-#         else:
-#             st.error('Email not found')
-#     except Exception as e:
-#         st.error(e)
-
-#     if authentication_status:
-#         try:
-#             if authenticator.update_user_details(username, 'Update user details'):
-#                 st.success('Entries updated successfully')
-#         except Exception as e:
-#             st.error(e)
-
-#     if authentication_status:
-# with open('D:/Projects/ML-II/config.yaml', 'w') as file:
-#     yaml.dump(config, file, default_flow_style=False)
-
-
-df = pd.read_csv("D:/Projects/ML-II/Dataset.csv").dropna(axis = 1)
+df = pd.read_csv("Dataset.csv").dropna(axis = 1)
 le = LabelEncoder()
 le.fit_transform(df['prognosis'])
 x = df.iloc[:,:-1]
@@ -125,7 +48,6 @@ with open("rf.pkl", "rb") as rf_File:
 symptoms = x.columns.values
 symptom_index = {}
 for index, value in enumerate(symptoms):
-    # symptom = " ".join([i.capitalize() for i in value.split("_")])
     symptom_index[value] = index
 
 
@@ -152,43 +74,15 @@ with col3:
     search = st.button('Search')
 
 
-with open('articles.json','r') as articles_file:
-    articles = json.loads(articles_file.read())
-
-    for article in articles:
-        st.write(article["name"])
-        art_img = article["image"]
-        data = article['data']
-        red_url = article['redirect_url']
-        c1, c2 = st.columns([30,20])
-        with c1:
-            
-            res = request.urlopen(art_img).read()
-            image = Image.open(BytesIO(res))
-
-        with c2:
-            st.markdown("#####  \n [read more...](" + red_url + ")")
-
-
-
-
-
-
-
-
-
-
-
-
-if search:
+if  selcte_symtoms:
     if(len(selcte_symtoms)):
        predicted_disease =  predictDisease(selcte_symtoms)
-       st.write('your dieses may simlirr' , predicted_disease)
+       st.markdown("#### Based on our analysis, we predict that you may have  " + predicted_disease)
        with open('disease_data.json','r') as disesase_file:
             disease_data = json.loads(disesase_file.read())
 
             disease_info = disease_data[predicted_disease]
-
+            defination = disease_info["defination"] if "defination" in disease_info else None
             Specialty = disease_info["Specialty"] if "Speciality" in disease_info else None
             image_url = disease_info["Wiki_Img"] if "Wiki_Img" in disease_info else None
             othernames = disease_info["Other names"] if "Other names" in disease_info else None
@@ -204,65 +98,132 @@ if search:
             medication = disease_info["Medication"] if "Medication" in disease_info else None
             fields = disease_info["Fields ofemployment"] if "Fields ofemployment" in disease_info else None
             Sys = disease_info["Symptoms"] if "Symptoms" in disease_info else None
-
+            
             if image_url is not None:
-                res = request.urlopen(image_url).read()
-                image = Image.open(BytesIO(res))
+                x1,x2,x3 =   st.columns([6,10,5])
+                with x2:
+                    res = request.urlopen(image_url).read()
+                    image = Image.open(BytesIO(res))
+                    image = image.resize((500,500))
 
-                st.image(image, caption='Sunrise by the mountains')
-            if Specialty is not None:
-                st.write(Specialty)
-            if othernames is not None:
-                st.write(othernames)  
-            if type1 is not None:
-                st.write(type1)
-            if causes is not None:
-                st.write(causes)
+                    st.image(image)
+            if defination is not None:
+                x1,x2,x3 =   st.columns([1,5,30])
+                with x2:
+                    st.markdown('### Defination :')
+                with x3:
+                    st.markdown(f"#### {defination}")
             if riskfactor is not None:
-                st.write(riskfactor)
+                x1,x2,x3 =   st.columns([1,5,30])
+                with x2:
+                    st.markdown('### Risk Factor :')
+                with x3:
+                    st.markdown(f"#### {riskfactor}")
             if diagnostic is not None:
-                st.write(diagnostic)
+                x1,x2,x3 =   st.columns([1,5,30])
+                with x2:
+                    st.markdown('### Diagnostic Methods :') 
+                with x3:
+                    st.markdown(f"#### {diagnostic}") 
+
             if treatment is not None:
-                st.write(treatment)
+                x1,x2,x3 =   st.columns([1,5,30])
+                with x2:
+                    st.markdown('### Treatment :')
+                with x3:
+                    st.markdown(f"#### {treatment}")            
+            if type1 is not None:
+                x1,x2,x3 =   st.columns([1,5,30])
+                with x2:
+                    st.markdown('### Types :')
+                with x3:
+                    st.markdown(f"#### {type1}")
+            if Specialty is not None:
+                x1,x2,x3 =   st.columns([1,5,30])
+                with x2:
+                    st.markdown('### Specialty :')
+                with x3:
+                    st.markdown(f"#### {Specialty}")
             if frequcy is not None:
-                st.write(frequcy)
+                x1,x2,x3 =   st.columns([1,5,30])
+                with x2:
+                    st.markdown('### Frequency :')
+                with x3:
+                    st.markdown(f"#### {frequcy}")
             if deaths is not None:
-                st.write(deaths)
-            if wiki_name is not None:
-                st.write(wiki_name)
-            if prevention is not None:
-                st.write(prevention)
-            if medication is not None:
-                st.write(medication)
-    else:
-        st.write('Please select the symptoms')
+                x1,x2,x3 =   st.columns([1,5,30])
+                with x2:
+                    st.markdown('### Deaths :')
+                with x3:
+                    st.markdown(f"#### {deaths}")
+
+
+else:
+    with open('articles.json','r') as articles_file:
+        articles = json.loads(articles_file.read())
+
+        for article in articles:
+            name = article["name"]
+            art_img = article["image"]
+            data = article['data']
+            red_url = article['redirect_url']
+            c1, c2 = st.columns([9,30])
+            with c1:
+                
+                img = request.urlopen(art_img).read()
+                art_image = Image.open(BytesIO(img))
+                image = art_image.resize((250,200))
+                st.image(image)
+
+            with c2:
+                st.markdown('#####')
+                st.markdown(f"#### {name}")
+                st.markdown(f"{data}\n [Read More... ]({red_url})")
 
 
 
+st.markdown("---")
+loc_data = streamlit_js_eval.get_geolocation('SCR')
+latitude = loc_data["coords"]["latitude"]
+longitude = loc_data["coords"]["longitude"]
+import folium
+from streamlit_folium import st_folium , folium_static
+m = folium.Map(location=[latitude,longitude])
+st_folium(m , width=1500 , height=625 , zoom = 16)
 
 
 
 # TO GET THE LOCATION
-loc = st.button("Get Location")
-loc_data = streamlit_js_eval.get_geolocation('SCR')
-import base64
-import streamlit as st
-from st_clickable_images import clickable_images
-
+x1,x2,x3 = st.columns([6,10,5])
+with x2:
+    st.markdown("#### In case of emegrgency Please press the below button ")
 images = []
-for file in ['hospital.jpg']:
+for file in ['hospital.png']:
     with open(file, "rb") as image:
         encoded = base64.b64encode(image.read()).decode()
-        images.append(f"data:image/jpeg;base64,{encoded}")
+        images.append(f"data:image/png;base64,{encoded}")
 
 clicked = clickable_images(
     images,
-    titles=[f"Image #{str(i)}" for i in range(2)],
-    div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap"},
-    img_style={"margin": "5px", "height": "200px"},
+    div_style={"display": "flex", "justify-content": "center", "flex-wrap": "wrap", "cursor": "pointer"},
+    img_style={"margin": "5px", "height": "300px" , "width": "300px"},
 )
+
+
+import emailer
+
+GMAIL_EMAIL = st.secrets["GMAIL_EMAIL"]
+GMAIL_PASSWORD = st.secrets["GMAIL_PASSWORD"]
 
 if not clicked:
     if loc_data is not None:
-        latitude = loc_data["coords"]["latitude"]
-        longitude = loc_data["coords"]["longitude"]
+        body = f"Latitude- {latitude}\nLongitude- {longitude}"
+        emailer.send_email_using_gmail(GMAIL_EMAIL, GMAIL_PASSWORD, "roshan.tiwari.24.5.2001@gmail.com", "Emergency Help", body)
+
+        x1,x2,x3 = st.columns([7,11,5])
+        with x2:
+            st.markdown("#### Help Requested Succesfully, Help Is on the way ")
+        
+
+
+

@@ -2,7 +2,7 @@
     {
         "name": "Countries begin negotiations on global agreement to protect world from future pandemic emergencies",
         "data": "Countries of the World Health Organization have begun negotiations on a global accord on pandemic prevention, preparedness and response, using the 'zero draft' as a basis for negotiating an agreement to protect nations and communities from future pandemic emergencies",
-        "image": "https://picsum.photos/200/300",
+        "image": "https://osfatlyf.org/portal/wp-content/uploads/2013/12/oms.jpg",
         "redirect_url": "https://www.who.int/news/item/03-03-2023-countries-begin-negotiations-on-global-agreement-to-protect-world-from-future-pandemic-emergencies"
     },
     {
@@ -10,5 +10,25 @@
         "data": "Any lifestyle change is a 'work in progress.' Lasting changes take time. So, begin by setting small goals that are easy to add to your daily life and that you control. Wellness and fitness involve being aware and making healthy choices about diet, exercise, and staying positive. This is the most important investment you can make in your life",
         "image": "https://picsum.photos/200/300",
         "redirect_url": "https://familydoctor.org/health-guides-health-state-mind-body/"
+    },
+    {
+        "name": "5 Ways to Avoid Adult Acne",
+        "data": "Won't they ever go away? As an adult, you expect pimples to be a thing of the past. But for many adults, blemishes continue to mar otherwise healthy skin. For some people, acne may be even worse in adulthood than in adolescence. In fact, it’s estimated that one in five adults between the ages of 25 and 44 experience acne.",
+        "image": "https://picsum.photos/200/300",
+        "redirect_url": "https://www.sharecare.com/skin-health/acne/avoiding-adult-acne-tips-breakouts-zits"
+    },
+    {
+        "name": "Zombie viruses have been revived from Siberian permafrost. Could they infect people?",
+        "data" : "There is a frozen soup of viruses, bacteria and fungal spores lurking beneath the frigid Arctic soil. Unlike the icy leftovers in the back of your freezer, some of these microbes haven't interacted with a cell since well before ancient Egyptians built the Pyramids of Giza about 4,500 years ago",
+        "image" : "https://cdn.mos.cms.futurecdn.net/Wsox6pkYysv9FbEdzQoSak-1200-80.jpg.webp",
+        "redirect_url" : "https://www.livescience.com/zombie-viruses-permafrost-siberia"
+        
+    },
+    {
+        "name" : "Migraines and blood sugar issues share common genetic risk factors",
+        "data" : "For someone prone to migraines, a missed meal could be a fast-track to an attack. Out-of-balance blood sugar is a well-established trigger for migraines and other types of headaches. Now, a new study adds genetic evidence to back up the connection and could potentially inform future strategies for treating migraines.",
+        "image" : "https://cdn.mos.cms.futurecdn.net/MeJk27xNntesbArdVjtKEg-1200-80.jpg.webp",
+        "redirect_url" : "https://www.livescience.com/migraines-and-blood-sugar-issues-share-common-genetic-risk-factors"
     }
+
 ]
