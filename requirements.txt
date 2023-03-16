@@ -3,6 +3,7 @@ attrs==22.2.0
 bcrypt==4.0.1
 blinker==1.5
 bokeh==3.0.3
+branca==0.6.0
 cachetools==5.3.0
 certifi==2022.12.7
 charset-normalizer==3.0.1
@@ -13,6 +14,7 @@ decorator==5.1.1
 deta==1.1.0
 entrypoints==0.4
 extra-streamlit-components==0.1.56
+folium==0.14.0
 gitdb==4.0.10
 GitPython==3.1.31
 idna==3.4
@@ -28,6 +30,7 @@ packaging==23.0
 pandas==1.5.3
 pathlib==1.0.1
 Pillow==9.4.0
+plotly==5.13.1
 protobuf==3.20.3
 pyarrow==11.0.0
 pydeck==0.8.0
@@ -50,7 +53,9 @@ smmap==5.0.0
 st-clickable-images==0.0.3
 streamlit==1.19.0
 streamlit-authenticator==0.2.1
+streamlit-folium==0.11.1
 streamlit-js-eval==0.1.5
+tenacity==8.2.2
 threadpoolctl==3.1.0
 toml==0.10.2
 toolz==0.12.0
