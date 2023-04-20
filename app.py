@@ -189,7 +189,9 @@ longitude = loc_data["coords"]["longitude"]
 import folium
 from streamlit_folium import st_folium , folium_static
 m = folium.Map(location=[latitude,longitude])
+folium.Marker(location= [latitude , longitude]).add_to(m)
 st_folium(m , width=1500 , height=625 , zoom = 16)
+
 
 
 
