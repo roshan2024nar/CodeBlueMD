@@ -1,6 +1,6 @@
 {
     "Fungal infection": {
-        "defination" : "Fungal infection, also known as mycosis, is a disease caused by fungi.Different types are traditionally divided according to the part of the body affected; superficial, subcutaneous, and systemic.Superficial fungal infections include common tinea of the skin, such as tinea of the body, groin, hands, feet and beard, and yeast infections such as pityriasis versicolor",
+        "defination" : "Fungal infection, also known as mycosis, is a disease caused by fungi.  Different types are traditionally divided according to the part of the body affected; superficial, subcutaneous, and systemic.Superficial fungal infections include common tinea of the skin, such as tinea of the body, groin, hands, feet and beard, and yeast infections such as pityriasis versicolor.",
         "Other names": "Mycoses, fungal disease, fungal infection ICD-10CM codes: Mycoses B35-B49 ",
         "Specialty": "Infectious Diseases",
         "Types": "Systemic, superficial, subcutaneous",
@@ -14,6 +14,7 @@
         "Wiki_Img": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Pulmonary_aspergillosis.jpg"
     },
     "Allergy": {
+        "defination" : "Allergies, also known as allergic diseases, refer to a number of conditions caused by the hypersensitivity of the immune system to typically harmless substances in the environment.",
         "Specialty": "immunology",
         "Symptoms": "Red eyes, itchy rash, vomiting, runny nose, shortness of breath, swelling, sneezing, and cough.",
         "Types": "Hay fever, food allergies, atopic dermatitis, allergic asthma, anaphylaxis",
@@ -88,7 +89,7 @@
         "Frequency": "64.4 million \u2013 113 million total cases1.5 million new cases 38.4 million living with HIV ",
         "Deaths": "40.1 million total deaths650,000 ",
         "Wiki_Name": "HIV/AIDS",
-        "Wiki_Img": "https://upload.wikimedia.org/wikipedia/commons/6/64/Red_Ribbon.svg"
+        "Wiki_Img": "https://pluspng.com/img-png/hiv-aids-png-file-world-aids-day-ribbon-png-913.png"
     },
     "Diabetes": {
         "Pronunciation": "/\u02ccda\u026a \u0259\u02c8bi tiz, -t\u026as/",
@@ -243,7 +244,7 @@
         "Frequency": "390 million per year",
         "Deaths": "~40,000 ",
         "Wiki_Name": "Dengue fever",
-        "Wiki_Img": "https://upload.wikimedia.org/wikipedia/commons/9/91"
+        "Wiki_Img": "https://scx2.b-cdn.net/gfx/news/2017/dengueachill.jpg"
     },
     "Typhoid": {
         "Other names": "Enteric fever, slow fever",
@@ -468,7 +469,7 @@
         "Medication": "Beta blockers, methimazole",
         "Frequency": "1.2% ",
         "Wiki_Name": "Hyperthyroidism",
-        "Wiki_Img": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Triiodothyronine.svg"
+        "Wiki_Img": "http://livhealthylife.com/wp-content/uploads/2020/04/Hyperthyroidism-1024x576.jpg"
     },
     "Hypoglycemia": {
         "Other names": "Hypoglycaemia, hypoglyc\u00e6mia, low blood glucose, low blood sugar",
@@ -516,7 +517,7 @@
         "Differential diagnosis": "Presyncope, disequilibrium, non-specific dizziness",
         "Frequency": "20\u201340% at some point",
         "Wiki_Name": "Vertigo",
-        "Wiki_Img": "https://upload.wikimedia.org/wikipedia/commons/b/b6"
+        "Wiki_Img": "http://www.unitedhealthdirectory.com/wp-content/uploads/2011/02/Paroxysmal-Nocturnal-Hemoglobinuria1.jpg"
     },
     "Acne": {
         "Other names": "Acne vulgaris",

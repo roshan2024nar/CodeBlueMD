@@ -16,9 +16,11 @@ from urllib import request
 from io import BytesIO
 from st_clickable_images import clickable_images
 import base64
-from st_clickable_images import clickable_images
-import random
-from math import radians, sin, cos, sqrt
+import folium
+from streamlit_folium import st_folium , folium_static
+import emailer
+import plotly.graph_objects as go 
+
 
 st.set_page_config(page_title = 'CodeBlueMD' , layout= "wide" ,  page_icon = ':hospital:')
 z1, z2 = st.columns([30,20])
@@ -33,6 +35,8 @@ with z2:
 x1 ,x2 , x3 = st.columns([3,20,3])
 with x2:
     st.markdown('### Welcome to CodeBlueMD, The emergency care solution you can count on...')
+
+
 
 df = pd.read_csv("Dataset.csv").dropna(axis = 1)
 le = LabelEncoder()
@@ -76,12 +80,16 @@ with col3:
 
 if  selcte_symtoms:
     if(len(selcte_symtoms)):
-       predicted_disease =  predictDisease(selcte_symtoms)
-       st.markdown("#### Based on our analysis, we predict that you may have  " + predicted_disease)
-       with open('disease_data.json','r') as disesase_file:
+        predicted_disease =  predictDisease(selcte_symtoms)
+
+    x1 , x2 , x3 = st.columns([4,10,4])
+    with x2:
+        st.markdown("#### Based on our analysis, we predict that you may have  " + predicted_disease)
+    with open('disease_data.json','r') as disesase_file:
             disease_data = json.loads(disesase_file.read())
 
             disease_info = disease_data[predicted_disease]
+
             defination = disease_info["defination"] if "defination" in disease_info else None
             Specialty = disease_info["Specialty"] if "Speciality" in disease_info else None
             image_url = disease_info["Wiki_Img"] if "Wiki_Img" in disease_info else None
@@ -98,6 +106,10 @@ if  selcte_symtoms:
             medication = disease_info["Medication"] if "Medication" in disease_info else None
             fields = disease_info["Fields ofemployment"] if "Fields ofemployment" in disease_info else None
             Sys = disease_info["Symptoms"] if "Symptoms" in disease_info else None
+
+
+
+            rows = []
             
             if image_url is not None:
                 x1,x2,x3 =   st.columns([6,10,5])
@@ -108,54 +120,53 @@ if  selcte_symtoms:
 
                     st.image(image)
             if defination is not None:
-                x1,x2,x3 =   st.columns([1,5,30])
-                with x2:
-                    st.markdown('### Defination :')
-                with x3:
-                    st.markdown(f"#### {defination}")
+                rows.append(["Definition", defination])
+
+            if Sys is not None:
+                rows.append(["Symptoms", Sys])
+            
+
             if riskfactor is not None:
-                x1,x2,x3 =   st.columns([1,5,30])
-                with x2:
-                    st.markdown('### Risk Factor :')
-                with x3:
-                    st.markdown(f"#### {riskfactor}")
+                rows.append(["Risk Factor", riskfactor])
+
             if diagnostic is not None:
-                x1,x2,x3 =   st.columns([1,5,30])
-                with x2:
-                    st.markdown('### Diagnostic Methods :') 
-                with x3:
-                    st.markdown(f"#### {diagnostic}") 
+                rows.append(["Diagnostic Methods", diagnostic])
+
 
             if treatment is not None:
-                x1,x2,x3 =   st.columns([1,5,30])
-                with x2:
-                    st.markdown('### Treatment :')
-                with x3:
-                    st.markdown(f"#### {treatment}")            
+                rows.append(["Treatment", treatment])     
+
             if type1 is not None:
-                x1,x2,x3 =   st.columns([1,5,30])
-                with x2:
-                    st.markdown('### Types :')
-                with x3:
-                    st.markdown(f"#### {type1}")
+                rows.append(["Type", type1])
+
+            if causes is not None:
+                rows.append(["Causes", causes])
+
+            if prevention is not None:
+                rows.append(["Prevention"  , prevention])
+
             if Specialty is not None:
-                x1,x2,x3 =   st.columns([1,5,30])
-                with x2:
-                    st.markdown('### Specialty :')
-                with x3:
-                    st.markdown(f"#### {Specialty}")
+                rows.append(["Specialty", Specialty])
+
             if frequcy is not None:
-                x1,x2,x3 =   st.columns([1,5,30])
-                with x2:
-                    st.markdown('### Frequency :')
-                with x3:
-                    st.markdown(f"#### {frequcy}")
+                rows.append(["Frequency", frequcy])
+
             if deaths is not None:
-                x1,x2,x3 =   st.columns([1,5,30])
-                with x2:
-                    st.markdown('### Deaths :')
-                with x3:
-                    st.markdown(f"#### {deaths}")
+                rows.append(["Deaths", deaths])
+
+            df = pd.DataFrame(rows, columns=["Name", "Information"])
+
+            table = go.Table(
+            header=dict(values=list(df.columns) , font=dict(size=20, family='Arial', color='red')),
+            cells=dict(values=[df['Name'],df['Information']] ,font=dict(size=17, family='Arial')))
+
+            
+            fig = go.Figure(data=[table])
+    
+            st.plotly_chart(fig  ,use_container_width=True, width=700, height=1500)
+            
+
+
 
 
 else:
@@ -186,12 +197,19 @@ st.markdown("---")
 loc_data = streamlit_js_eval.get_geolocation('SCR')
 latitude = loc_data["coords"]["latitude"]
 longitude = loc_data["coords"]["longitude"]
-import folium
-from streamlit_folium import st_folium , folium_static
-m = folium.Map(location=[latitude,longitude])
-folium.Marker(location= [latitude , longitude]).add_to(m)
-st_folium(m , width=1500 , height=625 , zoom = 16)
 
+
+if latitude is not None and longitude is not None:
+    m = folium.Map(location=[latitude,longitude])
+    folium.Marker(location= [latitude , longitude]).add_to(m)
+    st_folium(m , width=1400 , height=625 , zoom = 16)
+
+else:
+    latitude = 19.085649
+    longitude = 72.908218
+    m = folium.Map(location=[latitude,longitude])
+    folium.Marker(location= [latitude , longitude]).add_to(m)
+    st_folium(m , width=1400 , height=625 , zoom = 16)
 
 
 
@@ -212,7 +230,7 @@ clicked = clickable_images(
 )
 
 
-import emailer
+
 
 GMAIL_EMAIL = st.secrets["GMAIL_EMAIL"]
 GMAIL_PASSWORD = st.secrets["GMAIL_PASSWORD"]
