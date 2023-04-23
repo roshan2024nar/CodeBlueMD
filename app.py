@@ -84,6 +84,7 @@ if  selcte_symtoms:
 
     x1 , x2 , x3 = st.columns([4,10,4])
     with x2:
+        st.markdown("###")
         st.markdown("#### Based on our analysis, we predict that you may have  " + predicted_disease)
     with open('disease_data.json','r') as disesase_file:
             disease_data = json.loads(disesase_file.read())
@@ -154,16 +155,32 @@ if  selcte_symtoms:
             if deaths is not None:
                 rows.append(["Deaths", deaths])
 
-            df = pd.DataFrame(rows, columns=["Name", "Information"])
+            outputdframe = pd.DataFrame(rows, columns=["Name", "Information"])
+            th_props = [
+            ('font-size', '25px'),
+            ('text-align', 'center'),
+            ('font-weight', 'bold'),
+            ('color', '#6d6d6d'),
+            ('background-color', '#f7ffff')
+            ]
+                                        
+            td_props = [
+            ('font-size', '20px')
+            ]
 
-            table = go.Table(
-            header=dict(values=list(df.columns) , font=dict(size=20, family='Arial', color='red')),
-            cells=dict(values=[df['Name'],df['Information']] ,font=dict(size=17, family='Arial')))
+            td1_props = {
+                ("display", "none")
+            }
+                                            
+            styles = [
+            dict(selector="th", props=th_props),
+            dict(selector="td", props=td_props),
+            dict(selector="th:first-child", props=td1_props)
+            ]
 
-            
-            fig = go.Figure(data=[table])
-    
-            st.plotly_chart(fig  ,use_container_width=True, width=700, height=1500)
+            # table
+            df2=outputdframe.style.set_properties(**{'text-align': 'left'}).set_table_styles(styles)
+            st.table(df2)
             
 
 
